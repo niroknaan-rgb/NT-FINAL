@@ -1,0 +1,870 @@
+207-        console.warn(`Preload timeout: ${loaded}/${total} images loaded.`);
+208-        onComplete();
+209-      }
+210-    }, 30000);
+211-
+212:    return () => {
+213-      isMounted = false;
+214-      clearTimeout(failsafe);
+215-    };
+216-  }, [onComplete]);
+217-
+218:  return (
+219-    <div
+220-      className="absolute inset-0 bg-[#0a0000] flex flex-col items-center justify-center text-white z-[99999]"
+221-      dir="ltr"
+222-    >
+223-      <div className="absolute inset-0 z-0 pointer-events-none bg-[url('https://i.postimg.cc/ncKhRTsy/GRAIN.png')] opacity-40"></div>
+--
+279-    if (disabled) return;
+280-    const checkOrientation = () =>
+281-      setIsPortrait(window.innerHeight > window.innerWidth);
+282-    checkOrientation();
+283-    window.addEventListener("resize", checkOrientation);
+284:    return () => window.removeEventListener("resize", checkOrientation);
+285-  }, [disabled]);
+286-  if (disabled || !isPortrait) return null;
+287:  return (
+288-    <div className="fixed inset-0 z-[250] bg-black text-white flex flex-col items-center justify-center p-8 text-center">
+289-      <div className="w-24 h-40 border-4 border-white rounded-xl relative mb-8 animate-[spin_2s_ease-in-out_infinite]">
+290-        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-white rounded-full"></div>
+291-      </div>
+292-      <h2 className="text-2xl font-bold mb-4 tracking-widest">
+--
+328-      onClick();
+329-      setIsOpen(false);
+330-    }, 600);
+331-  };
+332-
+333:  return (
+334-    <div
+335-      className={`${className?.includes("relative") || className?.includes("absolute") ? "" : "absolute"} perspective-[100cqw] ${className}`}
+336-      style={{ transform: "translateZ(1px)" }}
+337-    >
+338-      {/* Door Frame Background (visible when open) - Placed first to render behind */}
+--
+382-}: {
+383-  children: React.ReactNode;
+384-  aspectRatio: number;
+385-  onClose: () => void;
+386-}) => {
+387:  return (
+388-    <motion.div
+389-      initial={{ opacity: 0, scale: 0.9 }}
+390-      animate={{ opacity: 1, scale: 1 }}
+391-      exit={{ opacity: 0, scale: 0.9 }}
+392-      className="absolute inset-0 bg-black/90 z-50 flex items-center justify-center p-4 sm:p-8 pointer-events-auto cursor-pointer"
+--
+432-      return;
+433-    }
+434-    onNavigate("lounge");
+435-  };
+436-
+437:  return (
+438-    <div className="absolute inset-0 bg-[#1a1a1a] flex items-center justify-center">
+439-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] pointer-events-none" />
+440-      <Door
+441-        onClick={handleDoorClick}
+442-        label=""
+--
+638-}: {
+639-  isInteracting: boolean;
+640-  onClick: () => void;
+641-  isHappy?: boolean;
+642-}) => {
+643:  return (
+644-    <motion.div
+645-      className={`absolute cursor-pointer group origin-bottom z-[150]`}
+646-      initial={false}
+647-      animate={{
+648-        bottom: isInteracting ? "-100%" : "5%",
+--
+692-  isCaretakerHappy: boolean;
+693-  onVaseInteract?: () => void;
+694-  onRemoveItem?: (item: string) => void;
+695-}) => {
+696-  const [vasePicked, setVasePicked] = useState(false);
+697:  return (
+698-    <div className="absolute inset-0 bg-[#3a1c4a] overflow-hidden perspective-[100cqw]">
+699-      {" "}
+700-      {/* Purple */}
+701-      <div
+702-        className="absolute inset-0"
+--
+933-  useEffect(() => {
+934-    if (stairState === "climbing_up") {
+935-      const timer = setTimeout(() => {
+936-        setStairState("at_top");
+937-      }, 2500);
+938:      return () => clearTimeout(timer);
+939-    } else if (stairState === "climbing_down") {
+940-      const timer = setTimeout(() => {
+941-        onNavigate("hallway");
+942-      }, 2500);
+943:      return () => clearTimeout(timer);
+944-    }
+945-  }, [stairState, onNavigate]);
+946-
+947-  useEffect(() => {
+948-    if (message) {
+949-      const duration = Math.max(2000, message.length * 100);
+950-      const timer = setTimeout(() => setMessage(null), duration);
+951:      return () => clearTimeout(timer);
+952-    }
+953-  }, [message]);
+954-
+955-  if (stairState === "at_top") {
+956:    return (
+957-      <div className="absolute inset-0 bg-[#15181c] flex flex-col items-center justify-end overflow-hidden">
+958-        <AnimatePresence>
+959-          {message && (
+960-            <motion.div
+961-              initial={{ opacity: 0, y: -20 }}
+--
+1012-        </div>
+1013-      </div>
+1014-    );
+1015-  }
+1016-
+1017:  return (
+1018-    <div className="absolute inset-0 bg-[#15181c] flex flex-col items-center justify-end overflow-hidden perspective-[100cqw]">
+1019-      <motion.div
+1020-        className="absolute inset-0 flex flex-col items-center justify-end"
+1021-        initial={
+1022-          stairState === "climbing_down"
+--
+1040-        style={{ transformOrigin: "bottom center" }}
+1041-      >
+1042-        {/* Stairs leading up to a door */}
+1043-        <div className="absolute inset-0 flex flex-col items-center justify-end z-10">
+1044-          {[...Array(8)].map((_, i) => {
+1045:            return (
+1046-              <div
+1047-                key={i}
+1048-                className="relative flex flex-col w-full"
+1049-                style={{
+1050-                  height: `${100 / 8}%`,
+--
+1207-              ></div>
+1208-            ))}
+1209-            <div className="absolute top-0 left-1 w-[calc(100%-8px)] h-[60%] flex pointer-events-none">
+1210-              {[...Array(28)].map((_, i) => {
+1211-                const isBlackKey = i % 7 !== 2 && i % 7 !== 6 && i !== 27;
+1212:                return (
+1213-                  <div key={`b-${i}`} className="flex-1 relative">
+1214-                    {isBlackKey && (
+1215-                      <div className="absolute top-0 left-[60%] w-[80%] h-full bg-black rounded-b-sm shadow-sm"></div>
+1216-                    )}
+1217-                  </div>
+--
+1303-  isLightOn,
+1304-}: RoomProps & { isLightOn?: boolean }) => {
+1305-  const [potPickedUp, setPotPickedUp] = useState(false);
+1306-  const [broomPickedUp, setBroomPickedUp] = useState(false);
+1307-
+1308:  return (
+1309-    <div
+1310-      className={`absolute inset-0 ${isLightOn ? "bg-[#1a1a0f]" : "bg-[#0a0a0a]"} overflow-hidden perspective-[100cqw] transition-colors duration-1000`}
+1311-    >
+1312-      {/* 3D Room Container without opacity transition to prevent perspective flattening glitch */}
+1313-      <div
+--
+1479-      if (i >= text.length) {
+1480-        clearInterval(interval);
+1481-        onComplete?.();
+1482-      }
+1483-    }, 40);
+1484:    return () => clearInterval(interval);
+1485-  }, [text]);
+1486-
+1487-  return <span>{displayedText}</span>;
+1488-};
+1489-
+--
+1494-}: {
+1495-  isInteracting: boolean;
+1496-  onClick: () => void;
+1497-  isHappy?: boolean;
+1498-}) => {
+1499:  return (
+1500-    <motion.div
+1501-      className={`absolute group origin-bottom z-[80] pointer-events-none`}
+1502-      initial={false}
+1503-      animate={{
+1504-        bottom: isInteracting ? "-100%" : "2%",
+--
+1544-  let chefImg = isInteracting
+1545-    ? "https://i.postimg.cc/j5H52C2r/ניר_שף_מדבר.png"
+1546-    : "https://i.postimg.cc/Gm920G8T/ניר_שף.png";
+1547-  if (isHappy) chefImg = "https://i.postimg.cc/YCSWQGYx/nyr-sp-_m-psth.png";
+1548-
+1549:  return (
+1550-    <motion.div
+1551-      className={`absolute group origin-bottom z-[80]`}
+1552-      initial={false}
+1553-      animate={{
+1554-        bottom: isInteracting ? "-100%" : "1%",
+--
+1588-  let painterImg = isInteracting
+1589-    ? "https://i.postimg.cc/k495mdCy/ניר_הצייר_מדבר.png"
+1590-    : "https://i.postimg.cc/fLZbNhsC/ניר_הצייר.png";
+1591-  if (isHappy) painterImg = "https://i.postimg.cc/kXsSVF6Q/nyr-hzyyr-smh.png";
+1592-
+1593:  return (
+1594-    <motion.div
+1595-      className={`absolute cursor-pointer group origin-bottom z-[110]`}
+1596-      initial={false}
+1597-      animate={{
+1598-        bottom: isInteracting ? "-100%" : "1%",
+--
+1624-  isInteracting: boolean;
+1625-  onClick: () => void;
+1626-  hasAgreed: boolean;
+1627-  isHappy?: boolean;
+1628-}) => {
+1629:  return (
+1630-    <motion.div
+1631-      className={`absolute cursor-pointer group origin-bottom z-[150]`}
+1632-      initial={false}
+1633-      animate={{
+1634-        bottom: isInteracting ? "-100%" : "1%",
+--
+1666-  isInteracting: boolean;
+1667-  onClick: () => void;
+1668-  customDialogue?: string[];
+1669-  position?: "entrance" | "stairs";
+1670-}) => {
+1671:  return (
+1672-    <motion.div
+1673-      className={`absolute cursor-pointer group origin-bottom z-[80]`}
+1674-      initial={false}
+1675-      animate={{
+1676-        bottom: isInteracting ? "-100%" : position === "stairs" ? "5%" : "1%",
+--
+2018-      "אחר כך שמענו שניר... מצאו אותו ככה.\nאני לא אגיד מה אני חושב.",
+2019-      "אני רק אגיד שהפסנתרן הפסיק בלי סיבה,\nוהוא נותן תירוצים נורא מוזרים...",
+2020-    ];
+2021-  }
+2022-
+2023:  return (
+2024-    <div
+2025-      className="absolute inset-0 z-[1000] flex flex-col items-center p-8 pointer-events-auto cursor-pointer"
+2026-      onClick={!showChoices ? onNext : undefined}
+2027-    >
+2028-      <div className="absolute bottom-4 left-4 z-[1100]">
+--
+2365-    {/* Turquoise */}
+2366-    <div className="absolute inset-0 bg-[linear-gradient(to_bottom,#3d5c5c_0%,#1a2a2a_100%)]"></div>
+2367-    <div className="absolute bottom-0 w-full h-[30%] bg-[#1a2a2a] border-t-4 border-[#2b4a4a] transform perspective-[100cqw] rotate-x-60 origin-bottom flex flex-wrap opacity-60">
+2368-      {[...Array(100)].map((_, i) => {
+2369-        const isWhite = (Math.floor(i / 10) + (i % 10)) % 2 === 0;
+2370:        return (
+2371-          <div
+2372-            key={i}
+2373-            className={`w-[10%] h-[10%] ${isWhite ? "bg-[#d2dae2]" : "bg-[#2b4a4a]"}`}
+2374-          ></div>
+2375-        );
+--
+2598-    if (screws.every((s) => !s) && !isBoxUnlocked && !isLidFalling) {
+2599-      setIsLidFalling(true);
+2600-    }
+2601-  };
+2602-
+2603:  return (
+2604-    <CloseUpContainer onClose={onClose} aspectRatio={3 / 2}>
+2605-      <div className="w-full h-full relative">
+2606-        <div className="absolute inset-0 border-8 border-[#4d6b4d] bg-[#1f3a1f] flex flex-col items-center justify-center p-8">
+2607-          {/* Internal Shelves */}
+2608-          {index !== 0 && (
+--
+2819-  onLeaveDetails 
+2820-}: { 
+2821-  onClose: () => void; 
+2822-  onLeaveDetails: () => void; 
+2823-}) => {
+2824:  return (
+2825-    <CloseUpContainer onClose={onClose} aspectRatio={1.5}>
+2826-      <div className="absolute inset-0 bg-[#f9f7f1] overflow-y-auto p-6 md:p-10 font-sans text-[#2a2a2a]" dir="rtl">
+2827-        <div className="w-[90%] md:w-[80%] mx-auto pb-10 filter drop-shadow-md bg-white p-6 md:p-12 rotate-[1deg] border border-[#e5e5e5]">
+2828-            <h2 className="text-xl md:text-2xl font-bold mb-6 text-black border-b border-gray-300 pb-2">חברים יקרים,</h2>
+2829-            <p className="mb-4 text-base md:text-lg leading-relaxed">אם אתם קוראים את זה אני כבר רחוק מכאן.</p>
+--
+2895-    const checkOrientation = () => {
+2896-      setIsPortrait(window.innerHeight > window.innerWidth);
+2897-    };
+2898-    checkOrientation();
+2899-    window.addEventListener("resize", checkOrientation);
+2900:    return () => window.removeEventListener("resize", checkOrientation);
+2901-  }, []);
+2902-
+2903-  const handleSubmit = (e: React.FormEvent) => {
+2904-    e.preventDefault();
+2905-    setErrorMsg(null);
+--
+2938-
+2939-  const remainingTickets = Math.max(0, 50 - existingCount);
+2940-
+2941-  // If showcase final celebration screen
+2942-  if (showEndScreen) {
+2943:    return (
+2944-      <div className="fixed inset-0 bg-[#0c0a09] z-[250] text-white flex flex-col justify-center items-center font-sans p-6 text-center select-none" dir="rtl">
+2945-        <motion.div
+2946-          initial={{ scale: 0.9, opacity: 0 }}
+2947-          animate={{ scale: 1, opacity: 1 }}
+2948-          transition={{ duration: 0.5 }}
+--
+2964-    );
+2965-  }
+2966-
+2967-  // If landscape, force rotation
+2968-  if (!isPortrait) {
+2969:    return (
+2970-      <div className="fixed inset-0 bg-zinc-950 text-white z-[250] flex flex-col items-center justify-between p-8 text-center select-none" dir="rtl">
+2971-        <div className="flex-1 flex flex-col items-center justify-center">
+2972-          <motion.div 
+2973-            initial={{ scale: 0.9, opacity: 0 }}
+2974-            animate={{ scale: 1, opacity: 1 }}
+--
+2993-      </div>
+2994-    );
+2995-  }
+2996-
+2997-  if (submitted) {
+2998:    return (
+2999-      <div className="fixed inset-0 bg-white z-[250] text-[#111111] flex flex-col items-center justify-center font-sans overflow-hidden" dir="rtl">
+3000-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-red-100/30 to-transparent pointer-events-none"></div>
+3001-
+3002-        <motion.div 
+3003-          initial={{ y: 20, opacity: 0 }}
+--
+3038-        </motion.div>
+3039-      </div>
+3040-    );
+3041-  }
+3042-
+3043:  return (
+3044-    <div className="fixed inset-0 bg-white z-[250] text-[#111111] flex flex-col font-sans overflow-hidden" dir="rtl">
+3045-      {/* Background design elements */}
+3046-      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-red-100/20 to-transparent pointer-events-none"></div>
+3047-
+3048-      <motion.div 
+--
+3231-    setParticipants(updated);
+3232-    setSelectedRowIndex(null);
+3233-    setShowConfirmDelete(false);
+3234-  };
+3235-
+3236:  return (
+3237-    <div className="fixed inset-0 bg-slate-950/95 flex items-center justify-center z-[120] p-4 md:p-8 text-white text-right" dir="rtl">
+3238-      <motion.div 
+3239-        initial={{ scale: 0.95, opacity: 0 }}
+3240-        animate={{ scale: 1, opacity: 1 }}
+3241-        className="bg-slate-900 border border-slate-800 rounded-2xl shadow-3xl max-w-5xl w-full h-[85vh] flex flex-col overflow-hidden"
+--
+3354-  isFusePlaced: boolean;
+3355-}) => {
+3356-  const [isOpen, setIsOpen] = useState(false);
+3357-  const [pickedUp, setPickedUp] = useState(false);
+3358-  const [hookPicked, setHookPicked] = useState(false);
+3359:  return (
+3360-    <CloseUpContainer onClose={onClose} aspectRatio={2 / 1}>
+3361-      <div className="w-full h-full relative">
+3362-        <div className="absolute inset-0 border-8 border-[#5c6b6b] bg-[#1f2424]">
+3363-          <div className="absolute top-0 left-0 w-full h-[40%] z-10">
+3364-            {!hasItem("fuse") && !isFusePlaced && !pickedUp && (
+--
+3416-  onInspectBox: () => void;
+3417-  onInspectInterior: () => void;
+3418-}) => {
+3419-  const [freezerOpen, setFreezerOpen] = useState(false);
+3420-  const [fridgeOpen, setFridgeOpen] = useState(false);
+3421:  return (
+3422-    <CloseUpContainer onClose={onClose} aspectRatio={1 / 2.5}>
+3423-      <div className="w-full h-full relative border-8 border-[#5c6b6b] bg-[#1f2424] flex flex-col">
+3424-        <div className="flex-[2] relative border-b-4 border-[#5c6b6b]">
+3425-          <div className="absolute inset-0 p-4 flex flex-col gap-2 bg-[#e0e5e5]">
+3426-            <div className="w-full h-2 border-b-2 border-[#9aa8a8] border-dashed opacity-50"></div>
+--
+3495-    e.stopPropagation();
+3496-    onPickupItem(item, e);
+3497-    setTimeout(() => setPickedItems((prev) => [...prev, item]), 300);
+3498-  };
+3499-
+3500:  return (
+3501-    <CloseUpContainer onClose={onClose} aspectRatio={1 / 1}>
+3502-      <div className="w-full h-full bg-[#f0f4f4] border-8 border-[#d1d5d5] shadow-2xl relative flex flex-col p-2 gap-4">
+3503-        {/* Shelves */}
+3504-        {[...Array(3)].map((_, i) => (
+3505-          <div
+--
+3643-        onChefError();
+3644-      }
+3645-    }
+3646-  };
+3647-
+3648:  return (
+3649-    <CloseUpContainer onClose={onClose} aspectRatio={4 / 3}>
+3650-      <div className="w-full h-full bg-[#1a1c20] border-8 border-[#3a3f47] rounded-xl relative shadow-2xl flex items-center justify-center overflow-hidden">
+3651-        {/* Countertop texture */}
+3652-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,#ffffff_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+3653-
+--
+3722-  isFusePlaced: boolean;
+3723-  onPlaceFuse: () => void;
+3724-}) => {
+3725-  const [isOpen, setIsOpen] = useState(false);
+3726-  const [showSparks, setShowSparks] = useState(false);
+3727:  return (
+3728-    <CloseUpContainer onClose={onClose} aspectRatio={4 / 8}>
+3729-      <div
+3730-        className="w-[25cqw] h-[88.88cqh] relative"
+3731-        style={{ perspective: "100cqw" }}
+3732-      >
+--
+3739-              className="absolute inset-0 bg-[#4ade80]/30 mix-blend-screen pointer-events-none z-50 flex items-center justify-center shadow-[inset_0_0_50px_rgba(74,222,128,0.5)]"
+3740-            />
+3741-          )}
+3742-          {[...Array(4)].map((_, i) => {
+3743-            if (i === 2) {
+3744:              return (
+3745-                <div
+3746-                  key={i}
+3747-                  className={`flex-1 border-2 relative ${isFusePlaced ? "border-[#4a5560] bg-[#2c343b]" : "border-[#4a5560] border-dashed bg-[#1a1c20] opacity-50 cursor-pointer"} flex items-center justify-between px-[5%] shadow-inner rounded-md`}
+3748-                  onClick={() => {
+3749-                    if (!isFusePlaced && selectedItem === "fuse") {
+--
+3770-                    </>
+3771-                  )}
+3772-                </div>
+3773-              );
+3774-            }
+3775:            return (
+3776-              <div
+3777-                key={i}
+3778-                className="flex-1 border-2 border-[#4a5560] bg-[#2c343b] flex items-center justify-between px-[5%] shadow-inner rounded-md"
+3779-              >
+3780-                <div className="w-[60%] h-[20%] bg-[#cbd5e1] rounded-sm"></div>
+--
+3847-    } else {
+3848-      onClose();
+3849-    }
+3850-  };
+3851-
+3852:  return (
+3853-    <CloseUpContainer onClose={handleClose} aspectRatio={1.5}>
+3854-      {/* Background/Environment */}
+3855-      <div className="w-full h-full relative overflow-hidden flex flex-col justify-end items-center px-[5cqw] pb-[5cqw]">
+3856-        {/* Car Back Bumper */}
+3857-        <div className="w-[80%] h-[30%] bg-[#0a1520] absolute bottom-0 rounded-t-[5cqw] border-t-[0.4cqw] border-[#1a4a6b]/50 shadow-[0_-1cqw_2cqw_rgba(0,0,0,0.8)] z-30 pointer-events-none">
+--
+3959-    } else {
+3960-      setGloveBoxOpen(!gloveBoxOpen);
+3961-    }
+3962-  };
+3963-
+3964:  return (
+3965-    <div
+3966-      className="absolute inset-0 bg-black/80 z-50 flex items-center justify-center p-8 cursor-pointer"
+3967-      onClick={onClose}
+3968-    >
+3969-      <div
+--
+4070-      onUnlock();
+4071-      onClose();
+4072-    }
+4073-  };
+4074-
+4075:  return (
+4076-    <motion.div
+4077-      initial={{ opacity: 0, scale: 0.9 }}
+4078-      animate={{ opacity: 1, scale: 1 }}
+4079-      exit={{ opacity: 0, scale: 0.9 }}
+4080-      className="absolute inset-0 bg-black/95 z-[60] flex flex-col items-center justify-center p-4 pointer-events-auto cursor-pointer"
+--
+4134-  hasItem?: (item: string) => boolean;
+4135-}) => {
+4136-  const [pickedUp, setPickedUp] = useState(false);
+4137-  const [aspect, setAspect] = useState(3 / 2);
+4138-
+4139:  return (
+4140-    <CloseUpContainer onClose={onClose} aspectRatio={aspect}>
+4141-      <div className="w-full h-full border-[0.5cqw] border-[#1a242a] bg-[#2b3a4a] flex items-center justify-center relative shadow-2xl overflow-hidden rounded-[1cqw]">
+4142-        <div className="w-[85%] h-[85%] relative">
+4143-          {/* Full coverage image of shelf & cans */}
+4144-          <img
+--
+4204-
+4205-  const maskX =
+4206-    flashlightPos.x === -1000 ? "-1000px" : `calc(100% - ${flashlightPos.x}px)`;
+4207-  const maskY = flashlightPos.y === -1000 ? "-1000px" : `${flashlightPos.y}px`;
+4208-
+4209:  return (
+4210-    <motion.div
+4211-      initial={{ opacity: 0 }}
+4212-      animate={{ opacity: 1 }}
+4213-      exit={{ opacity: 0 }}
+4214-      className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-center justify-center p-0 overflow-hidden"
+--
+4284-};
+4285-
+4286-const RugCorner = ({ onClose }: { onClose: () => void }) => {
+4287-  const [isLifted, setIsLifted] = useState(false);
+4288-
+4289:  return (
+4290-    <CloseUpContainer onClose={onClose} aspectRatio={4 / 3}>
+4291-      <div
+4292-        className="w-full h-full relative border-8 border-[#1a0a0a] bg-[#1a0a0a] shadow-2xl overflow-hidden cursor-pointer"
+4293-        onClick={() => setIsLifted(!isLifted)}
+4294-        style={{ perspective: "120cqw" }}
+--
+4335-  onInspectLock: () => void;
+4336-  onPickupItem: (item: string, e: React.MouseEvent) => void;
+4337-  hasItem: (item: string) => boolean;
+4338-  selectedItem: string | null;
+4339-}) => {
+4340:  return (
+4341-    <CloseUpContainer onClose={onClose} aspectRatio={0.6}>
+4342-      <div className="w-full h-full bg-[#1a0a0a] border-8 border-[#2a0f0f] shadow-2xl flex flex-col justify-evenly p-6 relative">
+4343-        {/* Shelf 1 */}
+4344-        <div className="w-full h-[5%] bg-[#0a0505] relative shadow-md flex items-end justify-start px-4 gap-2">
+4345-          <div className="w-[5%] h-[400%] bg-[#5a3a3a] rounded-t-sm border-l-2 border-[#3a1a1a]"></div>
+--
+4461-        <ChevronLeft className="w-[50%] h-[50%]" />
+4462-      </button>
+4463-    </div>
+4464-  );
+4465-
+4466:  return (
+4467-    <CloseUpContainer onClose={onClose} aspectRatio={1}>
+4468-      <div
+4469-        className="w-full h-full bg-[#2a2a2a] border-[8px] border-[#1a1a1a] rounded-2xl shadow-2xl relative"
+4470-        style={{ perspective: "1000px" }}
+4471-      >
+--
+4557-      onPickupItem("family-picture", e);
+4558-      setTimeout(() => onRemovePainting(), 300);
+4559-    }
+4560-  };
+4561-
+4562:  return (
+4563-    <CloseUpContainer onClose={onClose} aspectRatio={1.25}>
+4564-      <div
+4565-        className="w-full h-full bg-[#1a0a0a] border-[#2a1414] rounded-sm shadow-2xl relative overflow-hidden flex items-center justify-center"
+4566-        style={{ borderWidth: "1cqw" }}
+4567-      >
+--
+4744-  onPickupItem: (item: string, e: React.MouseEvent) => void;
+4745-  hasItem: (item: string) => boolean;
+4746-}) => {
+4747-  const [pickedUp, setPickedUp] = useState(false);
+4748-  const [stringPicked, setStringPicked] = useState(false);
+4749:  return (
+4750-    <CloseUpContainer onClose={onClose} aspectRatio={21 / 9}>
+4751-      <div className="w-full h-full bg-[#2a1414] border-8 border-[#1a0a0a] shadow-2xl flex items-end justify-center p-4 relative">
+4752-        {/* Mantle Surface */}
+4753-        <div className="absolute bottom-0 w-full h-[20%] bg-[#3a1a1a] border-t-4 border-[#4a2a2a]"></div>
+4754-
+--
+4795-};
+4796-
+4797-const BathroomMirrorCloseUp = ({ onClose }: { onClose: () => void }) => {
+4798-  const [isOpen, setIsOpen] = useState(false);
+4799-  const [boxMoved, setBoxMoved] = useState(false);
+4800:  return (
+4801-    <motion.div
+4802-      initial={{ opacity: 0, scale: 0.9 }}
+4803-      animate={{ opacity: 1, scale: 1 }}
+4804-      exit={{ opacity: 0, scale: 0.9 }}
+4805-      className="absolute inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-4 sm:p-8 pointer-events-auto"
+--
+4903-    } else {
+4904-      onMessage("נראה שזה עמוק מידי");
+4905-    }
+4906-  };
+4907-
+4908:  return (
+4909-    <CloseUpContainer onClose={onClose} aspectRatio={1}>
+4910-      <div className="w-full h-full bg-[#d2dae2] flex items-center justify-center relative border-8 border-[#808e9b] shadow-inner">
+4911-        <div
+4912-          className="w-3/4 h-3/4 bg-[#1e272e] rounded-full flex items-center justify-center relative overflow-hidden cursor-pointer hover:brightness-110 shadow-inner"
+4913-          onClick={handleClick}
+--
+5015-    { note: "As4", freq: 466.16, show: true },
+5016-    { note: "none", freq: 0, show: false },
+5017-    { note: "none", freq: 0, show: false },
+5018-  ];
+5019-
+5020:  return (
+5021-    <motion.div
+5022-      initial={{ opacity: 0, scale: 0.9 }}
+5023-      animate={{ opacity: 1, scale: 1 }}
+5024-      exit={{ opacity: 0, scale: 0.9 }}
+5025-      className="absolute inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-4 sm:p-8 pointer-events-auto"
+--
+5093-}) => {
+5094-  useEffect(() => {
+5095-    const timer = setTimeout(() => {
+5096-      onComplete();
+5097-    }, 3000);
+5098:    return () => clearTimeout(timer);
+5099-  }, [text]);
+5100-
+5101:  return (
+5102-    <motion.div
+5103-      initial={{ opacity: 0, y: -20, scale: 0.95 }}
+5104-      animate={{ opacity: 1, y: 0, scale: 1 }}
+5105-      exit={{ opacity: 0, y: -20, scale: 0.95 }}
+5106-      className="absolute top-[5%] left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-sm border border-white/10 rounded-full px-[2cqw] py-[0.6cqw] z-[1000] shadow-lg pointer-events-none flex items-center gap-[1.5cqw]"
+--
+5122-  onComplete,
+5123-}: {
+5124-  text: string;
+5125-  onComplete: () => void;
+5126-}) => {
+5127:  return (
+5128-    <motion.div
+5129-      initial={{ opacity: 0, y: 50 }}
+5130-      animate={{ opacity: 1, y: 0 }}
+5131-      exit={{ opacity: 0, y: 50 }}
+5132-      className="absolute bottom-0 left-0 w-full bg-black/80 backdrop-blur-md border-t border-white/10 p-[4cqw] shadow-2xl z-[1000] pointer-events-auto"
+--
+5184-    if (combined) {
+5185-      e.stopPropagation();
+5186-    }
+5187-  };
+5188-
+5189:  return (
+5190-    <motion.div
+5191-      initial={{ opacity: 0 }}
+5192-      animate={{ opacity: 1 }}
+5193-      exit={{ opacity: 0 }}
+5194-      className="absolute inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 pointer-events-auto cursor-pointer"
+--
+5767-
+5768-  useEffect(() => {
+5769-    updateConstraints();
+5770-    // Small timeout to measure after the opening animation completes
+5771-    const timer = setTimeout(updateConstraints, 350);
+5772:    return () => clearTimeout(timer);
+5773-  }, [items, isOpen]);
+5774-
+5775-  const getItemName = (item: string) => {
+5776-    return ITEM_NAMES[item] || item;
+5777-  };
+5778-
+5779:  return (
+5780-    <div className="absolute bottom-6 right-6 z-[200] flex items-center gap-2">
+5781-      <AnimatePresence>
+5782-        {isOpen && (
+5783-          <motion.div
+5784-            initial={{ width: 0, opacity: 0 }}
+--
+6300-      onPickupItem("sheet-music", e);
+6301-      setTimeout(() => setIsPickedUp(true), 300);
+6302-    }
+6303-  };
+6304-
+6305:  return (
+6306-    <CloseUpContainer onClose={onClose} aspectRatio={1}>
+6307-      <div className="w-[60%] h-[60%] bg-[#3e2723] border-[0.5cqw] border-[#1a0a0a] rounded-[1cqw] shadow-2xl relative">
+6308-        <div className="absolute inset-0" style={{ perspective: "1000px" }}>
+6309-          {/* Box Interior / Content */}
+6310-          <div className="absolute inset-0 bg-[#2a1414] rounded-[1cqw] flex flex-col items-center justify-center border-[0.2cqw] border-[#1a0a0a] shadow-inner p-[2cqw] z-0">
+--
+6368-  onPullHandle: () => boolean;
+6369-}) => {
+6370-  const [isOpen, setIsOpen] = useState(false);
+6371-  const [isPulling, setIsPulling] = useState(false);
+6372-
+6373:  return (
+6374-    <CloseUpContainer onClose={onClose} aspectRatio={1.3}>
+6375-      <div
+6376-        className="w-full h-full bg-[#333] border-[1.5cqw] border-[#1a1c20] shadow-2xl relative overflow-hidden flex"
+6377-        style={{ perspective: "800px" }}
+6378-      >
+--
+6523-      newCode[index] = (newCode[index] + 1) % 10;
+6524-      return newCode;
+6525-    });
+6526-  };
+6527-
+6528:  return (
+6529-    <CloseUpContainer onClose={onClose} aspectRatio={1}>
+6530-      <div
+6531-        className="w-[60cqw] h-[60cqw] max-w-[60vw] max-h-[60vw] bg-[#a0aab5] border-[2cqw] border-[#808e9b] rounded-[1cqw] shadow-2xl relative"
+6532-        style={{ perspective: "800px" }}
+6533-      >
+--
+6670-        setIsInventoryPulsing(true);
+6671-        setTimeout(() => setIsInventoryPulsing(false), 300);
+6672-      }
+6673-    };
+6674-    window.addEventListener("keydown", handleKeyDown);
+6675:    return () => window.removeEventListener("keydown", handleKeyDown);
+6676-  }, []);
+6677-
+6678-  const handleMessage = (msg: string, type: "system" | "speech" = "system") => {
+6679-    setActiveMessage(null);
+6680-    setActiveSpeech(null);
+--
+6892-  const hasItem = (item: string) => pickedUpItems.includes(item);
+6893-
+6894-  const renderCurrentLocation = () => {
+6895-    switch (currentLocation) {
+6896-      case "entrance":
+6897:        return (
+6898-          <Entrance
+6899-            onNavigate={handleNavigate}
+6900-            onInspect={setInspectingItem}
+6901-            onPickupItem={handlePickupItem}
+6902-            hasItem={hasItem}
+--
+6915-              characterInteraction.characterType === "clown"
+6916-            }
+6917-          />
+6918-        );
+6919-      case "lounge":
+6920:        return (
+6921-          <Lounge
+6922-            onNavigate={handleNavigate}
+6923-            onInspect={setInspectingItem}
+6924-            onPickupItem={handlePickupItem}
+6925-            hasItem={hasItem}
+--
+6931-            isBathroomKeyPickedUp={isBathroomKeyPickedUp}
+6932-            onLightCandle={() => setShowLitCandleReveal(true)}
+6933-          />
+6934-        );
+6935-      case "livingroom":
+6936:        return (
+6937-          <LivingRoom
+6938-            onNavigate={handleNavigate}
+6939-            onInspect={setInspectingItem}
+6940-            onPickupItem={handlePickupItem}
+6941-            hasItem={hasItem}
+--
+7052-            }
+7053-            onRemoveItem={handleRemoveItem}
+7054-          />
+7055-        );
+7056-      case "hallway":
+7057:        return (
+7058-          <Hallway
+7059-            onNavigate={handleNavigate}
+7060-            onInspect={setInspectingItem}
+7061-            onPickupItem={handlePickupItem}
+7062-            hasItem={hasItem}
+7063-            isBathroomUnlocked={isBathroomUnlocked}
+7064-            onMessage={(msg) => handleMessage(msg, "speech")}
+7065-          />
+7066-        );
+7067-      case "kitchen":
+7068:        return (
+7069-          <Kitchen
+7070-            onNavigate={handleNavigate}
+7071-            onInspect={setInspectingItem}
+7072-            onPickupItem={handlePickupItem}
+7073-            hasItem={hasItem}
+--
+7151-            }}
+7152-            isChefHappy={isChefHappy}
+7153-          />
+7154-        );
+7155-      case "music":
+7156:        return (
+7157-          <MusicRoom
+7158-            onNavigate={handleNavigate}
+7159-            onInspect={setInspectingItem}
+7160-            onPickupItem={handlePickupItem}
+7161-            hasItem={hasItem}
+--
+7205-            hasAgreedToHelpPianist={hasAgreedToHelpPianist}
+7206-            isPianistHappy={isPianistHappy}
+7207-          />
+7208-        );
+7209-      case "music-storage":
+7210:        return (
+7211-          <MusicStorage
+7212-            onNavigate={handleNavigate}
+7213-            onInspect={setInspectingItem}
+7214-            onPickupItem={handlePickupItem}
+7215-            hasItem={hasItem}
+7216-            onMessage={(msg) => handleMessage(msg, "speech")}
+7217-            isLightOn={isMusicStorageLightOn}
+7218-          />
+7219-        );
+7220-      case "garage":
+7221:        return (
+7222-          <Garage
+7223-            onNavigate={handleNavigate}
+7224-            onInspect={setInspectingItem}
+7225-            onPickupItem={handlePickupItem}
+7226-            hasItem={hasItem}
+--
+7288-              }
+7289-            }}
+7290-          />
+7291-        );
+7292-      case "studio":
+7293:        return (
+7294-          <ArtStudio
+7295-            onNavigate={handleNavigate}
+7296-            onInspect={setInspectingItem}
+7297-            onPickupItem={handlePickupItem}
+7298-            hasItem={hasItem}
+--
+7380-            }}
+7381-            isPainterHappy={isPainterHappy}
+7382-          />
+7383-        );
+7384-      case "bathroom":
+7385:        return (
+7386-          <Bathroom
+7387-            onNavigate={handleNavigate}
+7388-            onInspect={setInspectingItem}
+7389-            onPickupItem={handlePickupItem}
+7390-            hasItem={hasItem}
+7391-            onMessage={(msg) => handleMessage(msg, "speech")}
+7392-          />
+7393-        );
+7394-      case "bedroom":
+7395:        return (
+7396-          <Bedroom
+7397-            onNavigate={handleNavigate}
+7398-            onInspect={setInspectingItem}
+7399-            onPickupItem={handlePickupItem}
+7400-            hasItem={hasItem}
+7401-            onMessage={(msg) => handleMessage(msg, "speech")}
+7402-          />
+7403-        );
+7404-      case "stairs":
+7405:        return (
+7406-          <StairsTransition
+7407-            onNavigate={handleNavigate}
+7408-            onInspect={setInspectingItem}
+7409-            onPickupItem={handlePickupItem}
+7410-            hasItem={hasItem}
+--
+7427-              characterInteraction.characterType === "clown-stairs"
+7428-            }
+7429-          />
+7430-        );
+7431-      default:
+7432:        return (
+7433-          <Entrance
+7434-            onNavigate={handleNavigate}
+7435-            onInspect={setInspectingItem}
+7436-            onPickupItem={handlePickupItem}
+7437-            hasItem={hasItem}
+--
+7452-          />
+7453-        );
+7454-    }
+7455-  };
+7456-
+7457:  return (
+7458-    <>
+7459-      <div
+7460-        className="fixed top-0 left-0 w-[1px] h-[1px] opacity-[0.01] pointer-events-none overflow-hidden z-[-1]"
+7461-        aria-hidden="true"
+7462-      >
