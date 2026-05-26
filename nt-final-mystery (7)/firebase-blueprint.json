@@ -1,0 +1,43 @@
+{
+  "entities": {
+    "Participant": {
+      "title": "Participant",
+      "description": "A user registered for the secret show",
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "First name of the participant"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the participant"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the participant"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number of the participant"
+        },
+        "birthDate": {
+          "type": "string",
+          "description": "Birth date of the participant in string format YYYY-MM-DD"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the participant registered"
+        }
+      },
+      "required": ["firstName", "lastName", "email", "phone", "birthDate", "createdAt"]
+    }
+  },
+  "firestore": {
+    "participants/{participantId}": {
+      "schema": "Participant",
+      "description": "Collection of all participants registered globally"
+    }
+  }
+}
