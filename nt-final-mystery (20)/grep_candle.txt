@@ -1,0 +1,31 @@
+100:  | "caretaker-unlit-candle"
+348:  candle: "נר",
+349:  "lit-candle": "נר דולק",
+561:            if (selectedItem === "candle") {
+2020:  } else if (characterType === "caretaker-unlit-candle") {
+6027:          {item === "candle" && (
+6037:          {item === "lit-candle" && (
+6178:                          item !== "candle" &&
+6179:                          item !== "lit-candle" && (
+6239:                        {item === "candle" && (
+6249:                        {item === "lit-candle" && (
+6609:                          item !== "candle" &&
+6610:                          item !== "lit-candle" && (
+7547:                characterInteraction.characterType === "caretaker-unlit-candle" ||
+7551:              if (selectedItem === "lit-candle" && !isCaretakerHappy) {
+7558:              } else if (selectedItem === "candle" && !isCaretakerHappy) {
+7563:                  characterType: "caretaker-unlit-candle",
+7594:                characterInteraction.characterType === "caretaker-unlit-candle" ||
+7610:                  handleRemoveItem("lit-candle");
+7611:                  if (selectedItem === "lit-candle") setSelectedItem(null);
+8516:                    "caretaker-unlit-candle"
+8580:                      handleRemoveItem("lit-candle");
+8581:                      if (selectedItem === "lit-candle") setSelectedItem(null);
+8842:                {/* Soft background glow matching yellow candle fire */}
+8859:                      if (!filtered.includes("candle")) {
+8860:                        return ["candle", ...filtered];
+8865:                      prev.includes("candle") ? prev : [...prev, "candle"],
+8901:                      prev.map((i) => (i === "candle" ? "lit-candle" : i)),
+8904:                      prev.includes("lit-candle")
+8906:                        : [...prev, "lit-candle"],
+8908:                    if (selectedItem === "candle") setSelectedItem(null);
